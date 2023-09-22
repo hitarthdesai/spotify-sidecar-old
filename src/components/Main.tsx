@@ -1,11 +1,16 @@
-import { Button, Grid, Typography } from "@mui/material";
-import RadioIcon from "@mui/icons-material/Radio";
+import { useEffect } from "react";
+import { Button, Grid } from "@mui/material";
 import { authorizeUser } from "../utility/authorizeUser";
+import { getUserCode } from "../utility/getQueryParameters";
+import { getAccessToken } from "../utility/getAccessToken";
 
 export function Main() {
-	const handleLoginWithSpotify = () => {
-		authorizeUser();
-	};
+	useEffect(() => {
+		const userCode = getUserCode();
+		if (!userCode) return;
+
+		getAccessToken(userCode);
+	}, []);
 
 	return (
 		<Grid
@@ -23,7 +28,7 @@ export function Main() {
 			<Button
 				variant="contained"
 				sx={{ background: "green", color: "whitesmoke" }}
-				onClick={handleLoginWithSpotify}
+				onClick={() => authorizeUser()}
 			>
 				Login with Spotify
 			</Button>
